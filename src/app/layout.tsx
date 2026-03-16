@@ -26,8 +26,8 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased !bg-red-300 border-2 border-black min-h-screen
-        flex flex-col
+        className={`${geistSans.variable} ${geistMono.variable} 
+        antialiased min-h-screen flex flex-col 
         `}
       >
         <header>
@@ -36,7 +36,9 @@ export default function RootLayout({
             <Link href="/list">목록</Link>
           </nav>
         </header>
-        <main className="flex-grow">{children}</main>
+        <main className="flex-grow flex justify-center items-center">
+          {children}
+        </main>
         <footer>푸터</footer>
       </body>
     </html>
