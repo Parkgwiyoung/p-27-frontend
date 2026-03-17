@@ -1,5 +1,6 @@
 "use client";
 
+import { fetchApi } from "@/lib/client";
 import { useRouter } from "next/navigation";
 
 export default function Write() {
@@ -18,14 +19,26 @@ export default function Write() {
             return;
         }
 
+        if (title.value.length >= 10 || title.value.length < 2) {
+            alert("2글자 이상 10자 미만으로 작성해주세요");
+            title.focus();
+            return;
+        }
+
         if (content.value.length === 0) {
             alert("내용을 입력해주세요.");
             content.focus();
             return;
         }
 
+        if (content.value.length >= 100 || content.value.length < 2) {
+            alert("2글자 이상 100자 미만으로 작성해주세요");
+            content.focus();
+            return;
+        }
+
         // db에 저장.
-        fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/api/v1/posts`, {
+        fetchApi(`/api/v1/posts`, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json"
@@ -35,13 +48,11 @@ export default function Write() {
                 "content": content.value
             })
         })
-            .then(response => response.json())
             .then(rs => {
-                alert(rs.msg);
-                router.push(`/posts/${rs.data.postDto.id}`)
-
-            });
-        
+                alert("글이 정상적으로 작성되었습니다.");
+                // 글 상세 페이지로 이동
+                router.replace(`/posts/${rs.data.postDto.id}`)
+            })
     }
 
     return (
@@ -51,7 +62,9 @@ export default function Write() {
             <form action="" onSubmit={onSubmitHandler} className="flex flex-col gap-4">
                 <input type="text" name="title" className="border-1 rounded p-2" placeholder="제목을 입력해주세요" />
                 <textarea rows={10} name="content" className="border-1 rounded p-2" placeholder="내용을 입력해주세요"></textarea>
-                <input type="submit" value="작성" className="border-1 rounded p-2" />
+                <button className="bg-blue-500 text-white p-2 rounded" type="submit">
+                    저장
+                </button>
             </form>
         </>
     )
