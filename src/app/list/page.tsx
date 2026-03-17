@@ -21,6 +21,9 @@ export default function Home() {
     }, []);
 
     return (
+        posts.length <= 0
+            ? <div>로딩중..</div>
+        :
         <ul>
             {posts.map((post) => (
                 <li key={post.id} className="p-2">
@@ -28,5 +31,5 @@ export default function Home() {
                 </li>
             ))}
         </ul>
-    );
+    )
 }
